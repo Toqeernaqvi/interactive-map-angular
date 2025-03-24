@@ -43,7 +43,7 @@ export class MapComponent implements AfterViewInit {
           });
 
           this.renderer.listen(country, 'mouseover', () => {
-            country.style.fill = '#93BFCF';
+            country.style.fill = '#fff';
           });
 
           this.renderer.listen(country, 'mouseout', () => {
