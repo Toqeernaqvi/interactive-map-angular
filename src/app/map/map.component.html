@@ -1,7 +1,17 @@
 <div class="container mt-5">
   <div class="row">
-    <div class="map-container col-9 border border-3 border-dark rounded p-3">
-      <object #worldMap  type="image/svg+xml" data="assets/map-image.svg"></object>
+    <div class="map-container col-9 border border-3 border-dark rounded p-3 position-relative">
+      <!-- Zoom Controls -->
+      <div class="zoom-controls">
+        <button class="zoom-btn" (click)="zoomIn()">
+          <img src="assets/zoom-in.svg" alt="Zoom In" />
+        </button>
+        <button class="zoom-btn" (click)="zoomOut()">
+          <img src="assets/zoom-out.svg" alt="Zoom Out" />
+        </button>
+      </div>
+
+      <object #worldMap type="image/svg+xml" data="assets/map-image.svg"></object>
     </div>
     <div class="info-panel col-3 border border-3 border-dark rounded p-3">
       <h2>{{ countryInfo?.name }}</h2>

@@ -1,16 +1,13 @@
-/* Ensure the entire viewport is occupied */
 html, body {
     margin: 0;
     padding: 0;
     height: 100vh;
     overflow: hidden;
+    background: #BDCDD6 !important;
   }
   
- 
-
-/* Dark Mode Navbar */
 .navbar {
-    background-color: #121212; /* Dark background */
+    background-color: #121212;
     padding: 15px;
     text-align: center;
     box-shadow: 0px 2px 5px rgba(255, 255, 255, 0.1);
@@ -22,4 +19,3 @@ html, body {
     font-weight: bold;
     margin: 0;
   }
-  /* You can add global styles to this file, and also import other style files */

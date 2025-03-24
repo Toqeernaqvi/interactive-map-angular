@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-  PLATFORM_ID,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, PLATFORM_ID, Renderer2, ViewChild,} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CountryService } from '../services/country.service';
 
@@ -16,25 +7,22 @@ import { CountryService } from '../services/country.service';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css'],
 })
+
 export class MapComponent implements AfterViewInit {
   countryInfo: any = null;
+  zoomLevel: number = 1;
   isBrowser: boolean = false;
-
   @ViewChild('worldMap', { static: false }) worldMap!: ElementRef;
 
   constructor(
     private countryService: CountryService,
     @Inject(PLATFORM_ID) private platformId: any,
-    private renderer: Renderer2,
-    private cdRef: ChangeDetectorRef
-  ) {
-    this.isBrowser = isPlatformBrowser(this.platformId);
-  }
+    private cdRef: ChangeDetectorRef,
+    private renderer: Renderer2
+  ) { this.isBrowser = isPlatformBrowser(this.platformId); }
 
   ngAfterViewInit() {
     if (!this.isBrowser) return;
-
-    // Wait for SVG to fully load before accessing its content
     setTimeout(() => {
       this.attachEventListeners();
     }, 500);
@@ -43,7 +31,6 @@ export class MapComponent implements AfterViewInit {
   attachEventListeners() {
     const svgMap = this.worldMap.nativeElement as HTMLObjectElement;
     if (!svgMap) return;
-
     const tryLoad = () => {
       const svgDoc = svgMap.contentDocument;
       if (svgDoc) {
@@ -56,7 +43,7 @@ export class MapComponent implements AfterViewInit {
           });
 
           this.renderer.listen(country, 'mouseover', () => {
-            country.style.fill = '#3498db';
+            country.style.fill = '#93BFCF';
           });
 
           this.renderer.listen(country, 'mouseout', () => {
@@ -64,7 +51,6 @@ export class MapComponent implements AfterViewInit {
           });
         });
       } else {
-        // If SVG is not ready, retry after a short delay
         setTimeout(tryLoad, 300);
       }
     };
@@ -83,7 +69,28 @@ export class MapComponent implements AfterViewInit {
         currency: data.currency,
         language: data.language,
       };
+      debugger
       this.cdRef.detectChanges();
     });
+  }
+
+  zoomIn() {
+    this.zoomLevel = Math.min(this.zoomLevel + 0.2, 3);
+    this.applyZoom();
+  }
+
+  zoomOut() {
+    this.zoomLevel = Math.max(this.zoomLevel - 0.2, 0.5);
+    this.applyZoom();
+  }
+
+  applyZoom() {
+    const svgMap = this.worldMap.nativeElement as HTMLObjectElement;
+    const svgDoc = svgMap.contentDocument;
+    if (svgDoc) {
+      const svgElement = svgDoc.documentElement;
+      svgElement.style.transform = `scale(${this.zoomLevel})`;
+      svgElement.style.transformOrigin = "center center";
+    }
   }
 }

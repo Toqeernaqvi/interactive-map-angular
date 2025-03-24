@@ -1,11 +1,43 @@
 
   .map-container {
+    background-color: #6096B4;
      
   }
   
   .info-panel {
-     padding: 20px;
-    background: #f8f9fa;
+    padding: 20px;
+    background: #EEE9DA;
     border-left: 2px solid #ccc;
   }
+
+  .zoom-controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
   
+  .zoom-btn {
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .zoom-btn:hover {
+    background: #f1f1f1;
+  }
+  
+  .zoom-btn img {
+    width: 20px;
+    height: 20px;
+  }
