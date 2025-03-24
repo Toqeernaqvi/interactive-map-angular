@@ -1,4 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  PLATFORM_ID,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CountryService } from '../services/country.service';
 
@@ -11,14 +20,13 @@ export class MapComponent implements AfterViewInit {
   countryInfo: any = null;
   isBrowser: boolean = false;
 
-  @ViewChild('worldMap') worldMap!: ElementRef;
+  @ViewChild('worldMap', { static: false }) worldMap!: ElementRef;
 
   constructor(
     private countryService: CountryService,
     @Inject(PLATFORM_ID) private platformId: any,
     private renderer: Renderer2,
-    private cdRef: ChangeDetectorRef,  // Inject ChangeDetectorRef
-
+    private cdRef: ChangeDetectorRef
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -26,11 +34,21 @@ export class MapComponent implements AfterViewInit {
   ngAfterViewInit() {
     if (!this.isBrowser) return;
 
+    // Wait for SVG to fully load before accessing its content
+    setTimeout(() => {
+      this.attachEventListeners();
+    }, 500);
+  }
+
+  attachEventListeners() {
     const svgMap = this.worldMap.nativeElement as HTMLObjectElement;
-    svgMap?.addEventListener('load', () => {
+    if (!svgMap) return;
+
+    const tryLoad = () => {
       const svgDoc = svgMap.contentDocument;
       if (svgDoc) {
         const countries = svgDoc.querySelectorAll('path');
+
         countries.forEach((country: any) => {
           this.renderer.listen(country, 'click', () => {
             const countryCode = country.getAttribute('id');
@@ -45,13 +63,18 @@ export class MapComponent implements AfterViewInit {
             country.style.fill = '';
           });
         });
+      } else {
+        // If SVG is not ready, retry after a short delay
+        setTimeout(tryLoad, 300);
       }
-    });
+    };
+
+    svgMap.addEventListener('load', tryLoad);
+    tryLoad(); // Try loading immediately in case the event doesn't fire
   }
 
   getCountryInfo(countryCode: string) {
     this.countryService.getCountryDetails(countryCode).subscribe((data) => {
-      debugger
       this.countryInfo = {
         name: data.name,
         capital: data.capital,
@@ -60,8 +83,7 @@ export class MapComponent implements AfterViewInit {
         currency: data.currency,
         language: data.language,
       };
-      this.cdRef.detectChanges(); // ✅ Manually trigger change detection
-
+      this.cdRef.detectChanges();
     });
   }
 }

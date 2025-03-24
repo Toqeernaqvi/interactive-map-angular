@@ -1,15 +1,10 @@
-.container {
-    display: flex;
-  }
-  
+
   .map-container {
-    width: 70%;
-    height: 100vh;
+     
   }
   
   .info-panel {
-    width: 30%;
-    padding: 20px;
+     padding: 20px;
     background: #f8f9fa;
     border-left: 2px solid #ccc;
   }

@@ -1,8 +1,9 @@
-<div class="container">
-    <div class="map-container">
+<div class="container mt-5">
+  <div class="row">
+    <div class="map-container col-9 border border-3 border-dark rounded p-3">
       <object #worldMap  type="image/svg+xml" data="assets/map-image.svg"></object>
     </div>
-    <div class="info-panel">
+    <div class="info-panel col-3 border border-3 border-dark rounded p-3">
       <h2>{{ countryInfo?.name }}</h2>
       <p><strong>Capital:</strong> {{ countryInfo?.capital }}</p>
       <p><strong>Region:</strong> {{ countryInfo?.region }}</p>
@@ -10,5 +11,9 @@
       <p><strong>Currency:</strong> {{ countryInfo?.currency }}</p>
       <p><strong>Language:</strong> {{ countryInfo?.language }}</p>
     </div>
+  </div>
 </div>
   
+<div class="row bg-dark text-white text-center py-3 mt-5">
+  <p class="m-0">&copy; 2025 Interactive World Map. All Rights Reserved.</p>
+</div>
