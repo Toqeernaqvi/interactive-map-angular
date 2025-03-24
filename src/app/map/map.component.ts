@@ -66,11 +66,10 @@ export class MapComponent implements AfterViewInit {
         capital: data.capital,
         region: data.region,
         incomeLevel: data.incomeLevel,
-        currency: data.currency,
-        language: data.language,
+        latitude: data.latitude,
+        longitude: data.longitude,
       };
-      debugger
-      this.cdRef.detectChanges();
+      this.cdRef.markForCheck();
     });
   }
 

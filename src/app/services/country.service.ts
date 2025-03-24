@@ -16,14 +16,13 @@ export class CountryService {
       .pipe(
         map((response: any) => {
           const countryData = response[1][0];
-          debugger
           return {
             name: countryData.name,
             capital: countryData.capitalCity,
             region: countryData.region.value,
             incomeLevel: countryData.incomeLevel.value,
-            currency: countryData.currency || 'N/A',
-            language: countryData.language || 'N/A',
+            latitude: countryData.latitude,
+            longitude: countryData.longitude,
           };
         })
     );
